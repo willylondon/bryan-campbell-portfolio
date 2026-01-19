@@ -13,24 +13,24 @@
   <meta name="author" content="Bryan Campbell" />
   <meta name="robots" content="index, follow" />
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://willylondon.github.io/bryan-campbell-portfolio/" />
+  <!-- Canonical (UPDATED to new domain) -->
+  <link rel="canonical" href="https://masterbryankukibo.online/" />
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph / Facebook (UPDATED to new domain) -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://willylondon.github.io/bryan-campbell-portfolio/" />
+  <meta property="og:url" content="https://masterbryankukibo.online/" />
   <meta property="og:title" content="Grandmaster Bryan Campbell | Kukibo Martial Arts & Fitness Expert" />
   <meta property="og:description" content="50+ years martial arts expertise. Founder of Kukibo Martial Arts, IFBB International Judge, and elite fitness consultant." />
-  <meta property="og:image" content="https://willylondon.github.io/bryan-campbell-portfolio/images/social-preview.png" />
+  <meta property="og:image" content="https://masterbryankukibo.online/images/social-preview.png" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content="Grandmaster Bryan Campbell" />
 
-  <!-- Twitter Card -->
+  <!-- Twitter Card (UPDATED to new domain) -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://willylondon.github.io/bryan-campbell-portfolio/" />
+  <meta name="twitter:url" content="https://masterbryankukibo.online/" />
   <meta name="twitter:title" content="Grandmaster Bryan Campbell | Martial Arts & Fitness Expert" />
   <meta name="twitter:description" content="50+ years martial arts expertise. IFBB Judge & Kukibo founder." />
-  <meta name="twitter:image" content="https://willylondon.github.io/bryan-campbell-portfolio/images/social-preview.png" />
+  <meta name="twitter:image" content="https://masterbryankukibo.online/images/social-preview.png" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
@@ -47,7 +47,7 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/styles.css" />
 
-  <!-- Structured Data (JSON-LD) -->
+  <!-- Structured Data (JSON-LD) (UPDATED url to new domain) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -55,7 +55,7 @@
     "name": "Bryan Campbell",
     "jobTitle": "Grandmaster & Fitness Consultant",
     "description": "Grandmaster of Kukibo Martial Arts with 50+ years experience",
-    "url": "https://willylondon.github.io/bryan-campbell-portfolio/",
+    "url": "https://masterbryankukibo.online/",
     "email": "masterbryanc@yahoo.com",
     "telephone": "+1-876-874-4013",
     "address": {
@@ -63,7 +63,9 @@
       "addressLocality": "Kingston",
       "addressCountry": "JM"
     },
-    "sameAs": [],
+    "sameAs": [
+      "https://www.tiktok.com/@the.fit.app?_r=1&_t=ZS-93Cvmc6mrZQ"
+    ],
     "knowsAbout": [
       "Martial Arts",
       "Bas-I Kyokushin",
@@ -88,7 +90,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <!-- SMALL HERO/PROFILE IMAGE STYLES (kept here so it works even if you don't edit styles.css) -->
+  <!-- HERO/PROFILE IMAGE STYLES (kept here so it works even if you don't edit styles.css) -->
   <style>
     /* HERO layout: image left, text right */
     .hero-layout {
@@ -125,6 +127,32 @@
       box-shadow: 0 16px 45px rgba(0,0,0,0.35);
     }
 
+    /* Social link row */
+    .social-links {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: var(--text-white);
+      text-decoration: none;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+      background: rgba(0,0,0,0.12);
+    }
+    .social-links a:hover {
+      transform: translateY(-2px);
+      background: rgba(227, 6, 19, 0.10);
+      border-color: rgba(227, 6, 19, 0.40);
+    }
+
     /* Mobile responsiveness */
     @media (max-width: 900px) {
       .hero-layout {
@@ -142,6 +170,9 @@
       }
       .profile-portrait {
         margin: 0 auto;
+      }
+      .social-links {
+        justify-content: center;
       }
     }
   </style>
@@ -186,6 +217,14 @@
 
             <div class="hero-subtitle">
               Grandmaster Kukibo Martial Arts | Master of Fitness Technologies
+            </div>
+
+            <!-- TikTok button (NEW) -->
+            <div class="social-links" aria-label="Social media links">
+              <a href="https://www.tiktok.com/@the.fit.app?_r=1&_t=ZS-93Cvmc6mrZQ" target="_blank" rel="noopener noreferrer" aria-label="Open TikTok profile">
+                <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
+                TikTok: @the.fit.app
+              </a>
             </div>
 
             <a href="#contact" class="btn" aria-label="Go to contact section" style="margin-top: 24px; display: inline-block;">
@@ -371,20 +410,18 @@
             <span class="highlight-red">Phone:</span>
             <a href="tel:+18768744013" style="color: var(--text-white);">(876) 874-4013</a>
           </div>
+
+          <!-- TikTok link in contact section (NEW) -->
+          <div class="contact-detail">
+            <span class="highlight-red">TikTok:</span>
+            <a href="https://www.tiktok.com/@the.fit.app?_r=1&_t=ZS-93Cvmc6mrZQ" target="_blank" rel="noopener noreferrer" style="color: var(--text-white);">
+              @the.fit.app
+            </a>
+          </div>
+
           <div class="contact-detail" style="font-size: 1.5rem; font-weight: bold;">
             <a href="mailto:masterbryanc@yahoo.com" style="color: var(--text-white);">masterbryanc@yahoo.com</a>
-          </div><div class="contact-detail" style="margin-top: 12px;">
-  <span class="highlight-red"><i class="fab fa-tiktok" aria-hidden="true"></i> TikTok:</span>
-  <a
-    href="https://www.tiktok.com/@the.fit.app?_r=1&_t=ZS-93Cvmc6mrZQ"
-    target="_blank"
-    rel="noopener noreferrer"
-    style="color: var(--text-white); text-decoration: underline;"
-  >
-    @the.fit.app
-  </a>
-</div>
-
+          </div>
           <a href="mailto:masterbryanc@yahoo.com" class="btn" style="margin-top: 20px;">Send Priority Message</a>
         </div>
       </div>
@@ -406,11 +443,12 @@
 
   <!-- Service Worker Registration (for PWA) -->
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(() => console.log('Service Worker registered'))
-          .catch(() => console.log('Service Worker registration failed'));
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./service-worker.js")
+          .then(() => console.log("Service Worker registered"))
+          .catch(() => console.log("Service Worker registration failed"));
       });
     }
   </script>
