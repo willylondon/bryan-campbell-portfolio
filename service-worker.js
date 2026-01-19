@@ -1,50 +1,54 @@
 /**
  * Service Worker for Bryan Campbell Portfolio
- * Enables offline functionality and caching
+ * Offline caching (SAFE: ignores chrome-extension:// and all non-site assets)
  */
 
-const CACHE_NAME = "gm-campbell-v3";
+const CACHE_NAME = "gm-campbell-v4";
+const OFFLINE_URL = "/index.html";
 
-const urlsToCache = [
+// Only cache your own site files (same-origin)
+const CORE_ASSETS = [
   "/",
   "/index.html",
   "/css/styles.css",
   "/js/main.js",
   "/manifest.json",
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Russo+One&display=swap",
-  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  "/images/favicon.ico",
+  "/images/apple-touch-icon.png",
+  "/images/social-preview.png",
+  "/images/profile.jpg"
 ];
 
 // INSTALL — cache core assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
   );
   self.skipWaiting();
 });
 
-// ACTIVATE — clean old caches
+// ACTIVATE — delete old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(
-        keys.map((key) => (key !== CACHE_NAME ? caches.delete(key) : null))
-      )
+      Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
     )
   );
   self.clients.claim();
 });
 
-// FETCH — serve cached, fallback to network (SAFE: ignores chrome-extension:// etc.)
+// FETCH — cache-first for same-origin only
 self.addEventListener("fetch", (event) => {
   const req = event.request;
 
-  // Only cache GET requests
+  // Only handle GET
   if (req.method !== "GET") return;
 
-  // Only handle http/https requests (ignore chrome-extension://, blob:, data:, etc.)
   const url = new URL(req.url);
-  if (url.protocol !== "http:" && url.protocol !== "https:") return;
+
+  // Only handle requests from YOUR DOMAIN
+  // This blocks caching of chrome-extension://, fonts.googleapis.com, cdnjs, etc.
+  if (url.origin !== self.location.origin) return;
 
   event.respondWith(
     caches.match(req).then((cached) => {
@@ -52,14 +56,15 @@ self.addEventListener("fetch", (event) => {
 
       return fetch(req)
         .then((res) => {
-          // Cache only successful same-origin responses
-          if (!res || res.status !== 200 || res.type !== "basic") return res;
+          // Cache only successful responses
+          if (!res || res.status !== 200) return res;
 
           const copy = res.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+
           return res;
         })
-        .catch(() => caches.match("/index.html"));
+        .catch(() => caches.match(OFFLINE_URL));
     })
   );
 });
