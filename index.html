@@ -16,11 +16,22 @@
   <!-- Canonical (UPDATED to new domain) -->
   <link rel="canonical" href="https://masterbryankukibo.online/" />
 
+  <!-- Preconnect (MOVED ABOVE Google Fonts for performance) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Russo+One&display=swap"
+    rel="stylesheet"
+  />
+
   <!-- Open Graph / Facebook (UPDATED to new domain) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://masterbryankukibo.online/" />
   <meta property="og:title" content="Grandmaster Bryan Campbell | Kukibo Martial Arts & Fitness Expert" />
   <meta property="og:description" content="50+ years martial arts expertise. Founder of Kukibo Martial Arts, IFBB International Judge, and elite fitness consultant." />
+  <!-- IMPORTANT: Upload this file to /images/social-preview.png in your GitHub repo -->
   <meta property="og:image" content="https://masterbryankukibo.online/images/social-preview.png" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content="Grandmaster Bryan Campbell" />
@@ -30,6 +41,7 @@
   <meta name="twitter:url" content="https://masterbryankukibo.online/" />
   <meta name="twitter:title" content="Grandmaster Bryan Campbell | Martial Arts & Fitness Expert" />
   <meta name="twitter:description" content="50+ years martial arts expertise. IFBB Judge & Kukibo founder." />
+  <!-- IMPORTANT: Upload this file to /images/social-preview.png in your GitHub repo -->
   <meta name="twitter:image" content="https://masterbryankukibo.online/images/social-preview.png" />
 
   <!-- Favicon -->
@@ -40,14 +52,19 @@
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#E30613" />
 
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Russo+One&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/styles.css" />
 
-  <!-- Structured Data (JSON-LD) (UPDATED url to new domain) -->
+  <!-- Structured Data (JSON-LD) (UPDATED url + TikTok CLEAN URL) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -64,7 +81,7 @@
       "addressCountry": "JM"
     },
     "sameAs": [
-      "https://www.tiktok.com/@the.fit.app?_r=1&_t=ZS-93Cvmc6mrZQ"
+      "https://www.tiktok.com/@the.fit.app"
     ],
     "knowsAbout": [
       "Martial Arts",
@@ -86,11 +103,7 @@
   }
   </script>
 
-  <!-- Preload Critical Resources -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- HERO/PROFILE IMAGE STYLES (kept here so it works even if you don't edit styles.css) -->
+  <!-- HERO/PROFILE + SOCIAL BUTTON STYLES (kept here so it works even if you don't edit styles.css) -->
   <style>
     /* HERO layout: image left, text right */
     .hero-layout {
@@ -219,15 +232,25 @@
               Grandmaster Kukibo Martial Arts | Master of Fitness Technologies
             </div>
 
-            <!-- TikTok button (NEW) -->
+            <!-- TikTok button -->
             <div class="social-links" aria-label="Social media links">
-              <a href="https://www.tiktok.com/@the.fit.app?_r=1&_t=ZS-93Cvmc6mrZQ" target="_blank" rel="noopener noreferrer" aria-label="Open TikTok profile">
+              <a
+                href="https://www.tiktok.com/@the.fit.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open TikTok profile"
+              >
                 <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
                 TikTok: @the.fit.app
               </a>
             </div>
 
-            <a href="#contact" class="btn" aria-label="Go to contact section" style="margin-top: 24px; display: inline-block;">
+            <a
+              href="#contact"
+              class="btn"
+              aria-label="Go to contact section"
+              style="margin-top: 24px; display: inline-block;"
+            >
               Initiate Contact
             </a>
           </div>
@@ -268,7 +291,6 @@
         <h2 class="hidden">The Executive Profile</h2>
 
         <div class="profile-layout hidden delay-1">
-
           <!-- PROFILE IMAGE (left) -->
           <div>
             <img
@@ -411,10 +433,15 @@
             <a href="tel:+18768744013" style="color: var(--text-white);">(876) 874-4013</a>
           </div>
 
-          <!-- TikTok link in contact section (NEW) -->
+          <!-- TikTok link -->
           <div class="contact-detail">
             <span class="highlight-red">TikTok:</span>
-            <a href="https://www.tiktok.com/@the.fit.app?_r=1&_t=ZS-93Cvmc6mrZQ" target="_blank" rel="noopener noreferrer" style="color: var(--text-white);">
+            <a
+              href="https://www.tiktok.com/@the.fit.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="color: var(--text-white);"
+            >
               @the.fit.app
             </a>
           </div>
@@ -431,7 +458,10 @@
   <footer role="contentinfo">
     <div class="container">
       <div class="logo" style="margin-bottom: 20px;">GM <span class="highlight-red">CAMPBELL</span></div>
-      <p>&copy; 2025 Grandmaster Bryan Campbell. All Rights Reserved.</p>
+
+      <!-- AUTO COPYRIGHT YEAR -->
+      <p>&copy; <span id="year"></span> Grandmaster Bryan Campbell. All Rights Reserved.</p>
+
       <p style="margin-top: 10px; font-size: 0.9rem;">
         <a href="#hero" style="color: var(--text-silver); margin: 0 10px;">Back to Top</a>
       </p>
@@ -440,6 +470,11 @@
 
   <!-- JavaScript -->
   <script src="js/main.js"></script>
+
+  <!-- Copyright year script -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 
   <!-- Service Worker Registration (for PWA) -->
   <script>
