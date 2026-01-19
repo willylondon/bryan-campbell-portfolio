@@ -3,13 +3,13 @@
  * Enables offline functionality and caching
  */
 
-const CACHE_NAME = 'gm-campbell-v1';
+const CACHE_NAME = 'gm-campbell-v2';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/css/styles.css',
-  '/js/main.js',
-  '/manifest.json',
+  './',
+  './index.html',
+  './css/styles.css',
+  './js/main.js',
+  './manifest.json',
   'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Russo+One&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
