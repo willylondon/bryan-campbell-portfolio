@@ -32,6 +32,14 @@ function toggleMenu() {
 // Event listener for menu toggle button
 menuToggle.addEventListener('click', toggleMenu);
 
+// Close menu when a nav link is clicked (mobile only)
+navLinks.addEventListener('click', function(event) {
+    const isNavLink = event.target.closest('a');
+    if (isNavLink && window.innerWidth <= 768 && navLinks.classList.contains('active')) {
+        toggleMenu();
+    }
+});
+
 // Close menu when clicking outside
 document.addEventListener('click', function(event) {
     const isClickInsideNav = navLinks.contains(event.target);
@@ -198,6 +206,9 @@ document.addEventListener('keydown', function(e) {
  * Add focus trap for mobile menu
  */
 function trapFocus(element) {
+    if (element.dataset.focusTrap === 'true') return;
+    element.dataset.focusTrap = 'true';
+
     const focusableElements = element.querySelectorAll(
         'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled])'
     );
@@ -230,7 +241,58 @@ navLinks.addEventListener('transitionend', function() {
 });
 
 // ======================================
-// 8. ANALYTICS EVENT TRACKING
+// 8. LIGHTBOX ACCESSIBILITY
+// ======================================
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCloseBtn = lightbox ? lightbox.querySelector('.lightbox-close') : null;
+const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
+let lastFocusedElement = null;
+
+function openLightboxByImg(img) {
+    if (!lightbox || !lightboxImg || !img) return;
+    lightboxImg.src = img.src;
+    lightbox.classList.add('active');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    lastFocusedElement = document.activeElement;
+    if (lightboxCloseBtn) lightboxCloseBtn.focus();
+    trapFocus(lightbox);
+}
+
+function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('active');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+        lastFocusedElement.focus();
+    }
+}
+
+lightboxTriggers.forEach((item) => {
+    item.addEventListener('click', function() {
+        const img = item.querySelector('img');
+        openLightboxByImg(img);
+    });
+});
+
+if (lightbox) {
+    lightbox.addEventListener('click', function(event) {
+        if (event.target === lightbox || event.target === lightboxCloseBtn) {
+            closeLightbox();
+        }
+    });
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+        closeLightbox();
+    }
+});
+
+// ======================================
+// 9. ANALYTICS EVENT TRACKING
 // ======================================
 
 /**
@@ -263,7 +325,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 });
 
 // ======================================
-// 9. PAGE LOAD OPTIMIZATIONS
+// 10. PAGE LOAD OPTIMIZATIONS
 // ======================================
 
 /**
@@ -292,7 +354,7 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 }
 
 // ======================================
-// 10. CONSOLE BRANDING
+// 11. CONSOLE BRANDING
 // ======================================
 console.log(
     '%c GM CAMPBELL ',
@@ -305,7 +367,7 @@ console.log(
 console.log('Interested in the code? Check out the repository!');
 
 // ======================================
-// 11. ERROR HANDLING
+// 12. ERROR HANDLING
 // ======================================
 
 /**

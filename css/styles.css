@@ -136,6 +136,11 @@ section {
     width: 130%;
 }
 
+.hero-cta {
+    margin-top: 24px;
+    display: inline-block;
+}
+
 /* --- Scroll Animation Classes --- */
 .hidden {
     opacity: 0;
@@ -153,6 +158,84 @@ section {
 .delay-1 { transition-delay: 200ms; }
 .delay-2 { transition-delay: 400ms; }
 .delay-3 { transition-delay: 600ms; }
+
+.profile-intro {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: var(--text-silver);
+}
+
+.profile-honors-title {
+    font-size: 1.3rem;
+    margin-top: 20px;
+    color: var(--primary-red);
+}
+
+.profile-honors-list {
+    line-height: 1.8;
+    font-size: 1rem;
+    padding-left: 20px;
+    color: var(--text-silver);
+}
+
+.section-title-center {
+    text-align: center;
+    display: block;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.gallery-subtitle {
+    color: var(--text-silver);
+}
+
+.gallery-note {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.contact-link {
+    color: var(--text-white);
+}
+
+.contact-email {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.contact-cta {
+    margin-top: 20px;
+}
+
+.footer-logo {
+    margin-bottom: 20px;
+}
+
+.footer-top {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.footer-top-link {
+    color: var(--text-silver);
+    margin: 0 10px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
 
 /* --- Navbar Styles --- */
 #navbar {
@@ -180,6 +263,10 @@ section {
 
 .logo {
     font-size: 1.5rem;
+}
+
+.logo-link {
+    display: inline-block;
 }
 
 .nav-links {
@@ -431,6 +518,8 @@ section {
 }
 
 .lightbox-close {
+    background: transparent;
+    border: none;
     position: absolute;
     top: 30px;
     right: 30px;
