@@ -15,6 +15,9 @@ Professional portfolio website for Grandmaster Bryan Campbell - Kukibo Martial A
 - Mobile-friendly navigation
 - Optimized performance
 - SEO ready
+- Training-focused homepage sections
+- Blog hub with supporting self-defense and fitness articles
+- `robots.txt`, `sitemap.xml`, and `rss.xml`
 
 ## 🚀 Live Site
 
@@ -33,3 +36,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
 ## 🙏 Acknowledgments
 
 Built with modern web technologies and best practices.
+
+## Publishing Workflow
+
+Use [`BLOG_PUBLISHING_WORKFLOW.md`](/Users/willardwells/Documents/SEO%20Master/bryan-campbell-portfolio-main%206/BLOG_PUBLISHING_WORKFLOW.md) when adding new blog posts.
