@@ -11,12 +11,12 @@ Publish articles that attract qualified training leads for private coaching, gro
 - Beginner questions about training
 
 ## Publishing Steps
-1. Duplicate [`blog/post-template.html`](/Users/willardwells/Documents/SEO%20Master/bryan-campbell-portfolio-main%206/blog/post-template.html).
-2. Save the new article in `/blog/` using a simple keyword-rich slug.
-3. Add the article to [`blog.html`](/Users/willardwells/Documents/SEO%20Master/bryan-campbell-portfolio-main%206/blog.html).
-4. Add the article card to the homepage blog section in [`index.html`](/Users/willardwells/Documents/SEO%20Master/bryan-campbell-portfolio-main%206/index.html).
-5. Add the URL to [`sitemap.xml`](/Users/willardwells/Documents/SEO%20Master/bryan-campbell-portfolio-main%206/sitemap.xml).
-6. Add the article to [`rss.xml`](/Users/willardwells/Documents/SEO%20Master/bryan-campbell-portfolio-main%206/rss.xml).
+1. Duplicate `blog/post-template.html`.
+2. Save the new article in `blog/` using a simple keyword-rich slug.
+3. Add the article to `blog.html`.
+4. Add the article card to the homepage blog section in `index.html`.
+5. Add the URL to `sitemap.xml`.
+6. Add the article to `rss.xml`.
 
 ## SEO Checklist
 - Primary keyword in title
@@ -27,6 +27,13 @@ Publish articles that attract qualified training leads for private coaching, gro
 - At least one internal link back to the homepage or blog
 
 ## Best Next Topics
-- Best beginner martial arts training in Kingston
-- Women's self-defense training in Jamaica
-- How group martial arts classes build discipline for teens
+- Weight loss and fitness through martial arts training in Kingston Jamaica
+- How Kukibo martial arts helps Jamaicans manage daily stress and anxiety
+- After-school martial arts programs in Kingston for busy parents
+- One-on-one vs group karate lessons in Kingston: which is right for you
+- Martial arts classes for seniors: staying active after 50 in Jamaica
+- Self-defense techniques every college student in Jamaica should know
+- What to bring to your first martial arts class in Kingston
+- How martial arts improves focus and behavior in children with ADHD
+- Private karate coaching in Kingston: cost, benefits, and what to expect
+- Preparing for your first martial arts competition in Jamaica
