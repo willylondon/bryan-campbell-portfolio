@@ -3,7 +3,33 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "scripts": {"dev":"vite --host 0.0.0.0","build":"tsc -b && vite build","lint":"eslint .","test":"vitest run"},
-  "dependencies": {"@vitejs/plugin-react":"latest","vite":"latest","typescript":"latest","react":"latest","react-dom":"latest","lucide-react":"latest"},
-  "devDependencies": {"@types/react":"latest","@types/react-dom":"latest","vitest":"latest","eslint":"latest","typescript-eslint":"latest","eslint-plugin-react-hooks":"latest","eslint-plugin-react-refresh":"latest","globals":"latest"}
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "android:sync": "npm run build && cap sync android",
+    "android:apk": "npm run android:sync && cd android && ./gradlew assembleDebug",
+    "lint": "eslint .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/core": "^8.5.0",
+    "@vitejs/plugin-react": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.0",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "eslint-plugin-react-refresh": "latest",
+    "globals": "latest",
+    "typescript-eslint": "latest",
+    "vitest": "latest"
+  }
 }

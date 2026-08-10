@@ -1,4 +1,5 @@
 import {useEffect,useState,type ReactNode} from 'react';
+import {Capacitor,registerPlugin} from '@capacitor/core';
 import {BarChart3,FileText,LayoutDashboard,Plus,Settings,Users,Dumbbell,Search,Printer,Trash2,Menu,X,Save,Eye,Download} from 'lucide-react';
 import {seedCustomers,seedInvoices,seedServices} from './data';
 import type {Customer,Invoice,LineItem,Service,Status} from './types';
@@ -6,6 +7,9 @@ import type {Customer,Invoice,LineItem,Service,Status} from './types';
 const money=(n:number,c='JMD')=>new Intl.NumberFormat('en-JM',{style:'currency',currency:c,maximumFractionDigits:2}).format(n);
 const calc=(i:Invoice)=>{const sub=i.items.reduce((s,x)=>s+x.qty*x.rate,0);const taxable=Math.max(0,sub-i.discount);return {sub,tax:taxable*i.taxRate/100,total:taxable*(1+i.taxRate/100)}};
 const load=<T,>(k:string,f:T):T=>{try{return JSON.parse(localStorage.getItem(k)||'')||f}catch{return f}};
+type InvoicePrinterPlugin={print(options:{jobName:string}):Promise<void>};
+const InvoicePrinter=registerPlugin<InvoicePrinterPlugin>('InvoicePrinter');
+const printInvoice=async(documentNumber:string)=>{if(Capacitor.getPlatform()==='android'){await InvoicePrinter.print({jobName:`Master Bryan Kukibo ${documentNumber}`})}else{window.print()}};
 type View='dashboard'|'invoices'|'customers'|'services'|'settings'|'builder'|'preview';
 const business={
  name:'Master Bryan Kukibo',
@@ -34,7 +38,7 @@ export default function App(){
    <Nav icon={<FileText/>} label="Invoices & Estimates" active={['invoices','builder','preview'].includes(view)} onClick={()=>{setView('invoices');setMenu(false)}}/>
    <Nav icon={<Users/>} label="Customers" active={view==='customers'} onClick={()=>{setView('customers');setMenu(false)}}/><Nav icon={<Dumbbell/>} label="Services" active={view==='services'} onClick={()=>{setView('services');setMenu(false)}}/><Nav icon={<Settings/>} label="Settings" active={view==='settings'} onClick={()=>{setView('settings');setMenu(false)}}/>
   </nav><div className="profile"><img className="seal" src="/kukibo-logo.webp" alt="" aria-hidden="true"/><span><small>Master Bryan Kukibo</small><strong>Bryan Campbell</strong><em>21 Elmwood Terrace<br/>Queen Hill, Kingston 19</em></span></div></aside>
-  <main id="main-content" tabIndex={-1}>{view==='dashboard'&&<Dashboard invoices={invoices} customers={customers}/>} {view==='invoices'&&<Invoices invoices={invoices} customers={customers} query={query} setQuery={setQuery} onNew={openNew} onOpen={i=>{setEditing(i);setView('preview')}} onDelete={id=>setInvoices(p=>p.filter(i=>i.id!==id))}/>} {view==='customers'&&<Customers data={customers} setData={setCustomers}/>} {view==='services'&&<Services data={services} setData={setServices}/>} {view==='settings'&&<SettingsPage/>} {view==='builder'&&editing&&<Builder invoice={editing} customers={customers} services={services} onChange={setEditing} onSave={save} onCancel={()=>setView('invoices')} onPreview={()=>setView('preview')}/>} {view==='preview'&&editing&&<Preview invoice={editing} customer={customers.find(c=>c.id===editing.customerId)} onBack={()=>setView('builder')} onPrint={()=>window.print()}/>}</main>
+  <main id="main-content" tabIndex={-1}>{view==='dashboard'&&<Dashboard invoices={invoices} customers={customers}/>} {view==='invoices'&&<Invoices invoices={invoices} customers={customers} query={query} setQuery={setQuery} onNew={openNew} onOpen={i=>{setEditing(i);setView('preview')}} onDelete={id=>setInvoices(p=>p.filter(i=>i.id!==id))}/>} {view==='customers'&&<Customers data={customers} setData={setCustomers}/>} {view==='services'&&<Services data={services} setData={setServices}/>} {view==='settings'&&<SettingsPage/>} {view==='builder'&&editing&&<Builder invoice={editing} customers={customers} services={services} onChange={setEditing} onSave={save} onCancel={()=>setView('invoices')} onPreview={()=>setView('preview')}/>} {view==='preview'&&editing&&<Preview invoice={editing} customer={customers.find(c=>c.id===editing.customerId)} onBack={()=>setView('builder')} onPrint={()=>void printInvoice(editing.number)}/>}</main>
  </div>;
 }
 function Nav(p:{icon:ReactNode;label:string;active:boolean;onClick:()=>void}){return <button type="button" className={p.active?'active':''} aria-current={p.active?'page':undefined} onClick={p.onClick}>{p.icon}<span>{p.label}</span></button>}
