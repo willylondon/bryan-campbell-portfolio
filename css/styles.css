@@ -262,12 +262,12 @@ section {
     align-items: flex-end;
     padding-bottom: 90px;
     position: relative;
-    /* hero-cinematic.png = new cinematic 3-figure image (drop into images/ to activate) */
-    /* profile.jpg is the visible fallback until hero-cinematic.png is placed */
     background:
         linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.85) 100%),
-        url('../images/hero-cinematic.png') center top / cover no-repeat,
-        url('../images/profile.jpg') 65% center / cover no-repeat;
+        url('../images/hero-cinematic.jpg') center top / cover no-repeat;
+    background-image:
+        linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.85) 100%),
+        image-set(url('../images/hero-cinematic.webp') type('image/webp'), url('../images/hero-cinematic.jpg') type('image/jpeg'));
     border-bottom: 3px solid var(--primary-red);
 }
 
@@ -354,7 +354,7 @@ section {
 /* --- Cards Grid --- */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 30px;
     margin-top: 60px;
 }
@@ -431,7 +431,7 @@ section {
 /* --- Split Section --- */
 .split-section {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 60px;
     align-items: center;
     margin-bottom: 80px;
@@ -555,7 +555,7 @@ section {
 
 .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
     gap: 24px;
     margin-top: 40px;
 }
@@ -828,6 +828,7 @@ section {
 }
 
 .contact-link {
+    overflow-wrap: anywhere;
     color: var(--text-white);
 }
 
@@ -933,7 +934,8 @@ footer {
     .nav-links {
         position: fixed;
         top: 0;
-        right: -100%;
+        right: 0;
+        display: none;
         height: 100vh;
         width: 80%;
         background: var(--bg-black);
@@ -945,14 +947,14 @@ footer {
         gap: 0;
     }
 
-    .nav-links.active { right: 0; }
+    .nav-links.active { display: flex; }
     .nav-links li { margin: 16px 0; }
     .nav-links a { font-size: 1.4rem; }
     .nav-cta { margin-left: 0; padding: 12px 36px !important; font-size: 1rem; }
 
     /* Stats */
     .stats-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         gap: 30px;
     }
 
@@ -975,9 +977,12 @@ footer {
     }
     .left::after, .right::after { left: 21px; }
     .right { left: 0%; }
+    .timeline-content { padding: 20px 16px; overflow-wrap: anywhere; }
+    .timeline-content h3 { font-size: clamp(1rem, 4vw, 1.25rem); }
 
     /* Contact */
     .contact-box { padding: 30px 20px; }
+    .contact-email { font-size: clamp(1rem, 4.5vw, 1.4rem); }
     .contact-ctas { flex-direction: column; align-items: center; }
     .contact-ctas .btn,
     .contact-ctas .btn-outline { width: 100%; text-align: center; }
@@ -992,3 +997,10 @@ footer {
     body { background: white; color: black; }
     section { page-break-inside: avoid; }
 }
+
+/* Native gallery buttons retain the existing image layout. */
+.gallery-item { padding: 0; background: transparent; width: 100%; }
+.gallery-item picture { display: block; height: 100%; }
+.gallery-item:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+
+.stat-item { min-width: 0; overflow-wrap: anywhere; }

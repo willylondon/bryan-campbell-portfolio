@@ -1,0 +1,6 @@
+{
+  "name": "bryan-campbell-portfolio",
+  "private": true,
+  "scripts": { "test": "node tests/site.test.cjs" },
+  "devDependencies": { "playwright": "1.64.0" }
+}
