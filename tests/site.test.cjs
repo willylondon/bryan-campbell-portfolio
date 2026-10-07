@@ -149,7 +149,7 @@ const server = http.createServer((req, res) => {
     for (const file of ['blog/karate-classes-kingston-jamaica.html', 'blog/youth-martial-arts-tournaments-jamaica.html']) assert(!/Image Placement|Meta Details|Internal Link|\*\*/.test(read(file)), `draft markers ${file}`);
     for (const width of [320, 390, 768, 1280]) {
       await audit.setViewportSize({ width, height: 844 });
-      for (const file of ['index.html', 'blog.html', 'blog/karate-classes-kingston-jamaica.html', 'blog/youth-martial-arts-tournaments-jamaica.html']) {
+      for (const file of ['index.html', 'blog.html', 'blog/karate-classes-kingston-jamaica.html', 'blog/youth-martial-arts-tournaments-jamaica.html', 'blog/2026-04-22-martial-arts-confidence-training-for-teens-in-kingston.html', 'blog/2026-04-30-best-beginner-martial-arts-training-in-kingston.html', 'blog/2026-08-27-karate-belt-levels-and-what-each-rank-means-for-adults.html']) {
         await audit.goto(`${origin}/${file}`);
         if (!await audit.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)) console.log(await audit.locator('body *').evaluateAll(els => els.filter(el => el.scrollWidth > el.clientWidth + 1).map(el => ({tag:el.tagName, cls:el.className, right:el.getBoundingClientRect().right, scroll:el.scrollWidth, client:el.clientWidth, text:el.textContent.slice(0,60)}))));
         assert(await audit.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `horizontal overflow: ${file} at ${width}`);
@@ -169,7 +169,7 @@ const server = http.createServer((req, res) => {
       await audit.screenshot({ path: path.join(root, `output/playwright/article-${width}.png`) });
     }
     assert.deepEqual(errors, []);
-    console.log(`PASS ${pages.length} HTML pages, ${linkCount} internal references/fragments, CSS assets, listed-article sitemap, CTAs and 16 responsive layouts`);
+    console.log(`PASS ${pages.length} HTML pages, ${linkCount} internal references/fragments, CSS assets, listed-article sitemap, CTAs and 28 responsive layouts (7 pages at 4 widths)`);
     await auditContext.close(); await context.close();
   } finally { await browser.close(); server.close(); clearTimeout(watchdog); }
 })().catch(error => { console.error(error); server.close(); clearTimeout(watchdog); process.exitCode = 1; });
