@@ -3,7 +3,7 @@
  * Offline caching (SAFE: ignores chrome-extension:// and all non-site assets)
  */
 
-const CACHE_NAME = "gm-campbell-v5";
+const CACHE_NAME = "gm-campbell-v6";
 const OFFLINE_URL = "/index.html";
 
 // Only cache your own site files (same-origin)
@@ -22,19 +22,17 @@ const CORE_ASSETS = [
 // INSTALL — cache core assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
 // ACTIVATE — delete old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
-    )
+      Promise.all(keys.map((k) => (k.startsWith("gm-campbell-") && k !== CACHE_NAME ? caches.delete(k) : null)))
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 // FETCH — network-first for HTML, cache-first for static assets
@@ -81,7 +79,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
           return res;
         })
-        .catch(() => caches.match(OFFLINE_URL));
+        .catch(() => Response.error());
     })
   );
 });

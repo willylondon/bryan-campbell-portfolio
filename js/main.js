@@ -16,49 +16,29 @@ const menuIcon = menuToggle.querySelector('i');
 /**
  * Toggle mobile navigation menu
  */
-function toggleMenu() {
-    // Only toggle if on mobile view
-    if (window.innerWidth <= 768) {
-        navLinks.classList.toggle('active');
-        menuIcon.classList.toggle('fa-bars');
-        menuIcon.classList.toggle('fa-times');
-        
-        // Update ARIA attribute for accessibility
-        const isExpanded = navLinks.classList.contains('active');
-        menuToggle.setAttribute('aria-expanded', isExpanded);
-    }
+function setMenuOpen(open, restoreFocus = false) {
+    const mobile = window.innerWidth <= 768;
+    open = mobile && open;
+    navLinks.classList.toggle('active', open);
+    menuIcon.classList.toggle('fa-bars', !open);
+    menuIcon.classList.toggle('fa-times', open);
+    menuToggle.setAttribute('aria-expanded', String(open));
+    navLinks.inert = mobile && !open;
+    if (restoreFocus) menuToggle.focus();
 }
 
-// Event listener for menu toggle button
+function toggleMenu() {
+    setMenuOpen(!navLinks.classList.contains('active'));
+}
 menuToggle.addEventListener('click', toggleMenu);
-
-// Close menu when a nav link is clicked (mobile only)
-navLinks.addEventListener('click', function(event) {
-    const isNavLink = event.target.closest('a');
-    if (isNavLink && window.innerWidth <= 768 && navLinks.classList.contains('active')) {
-        toggleMenu();
-    }
+navLinks.addEventListener('click', (event) => {
+    if (event.target.closest('a') && window.innerWidth <= 768) setMenuOpen(false, true);
 });
-
-// Close menu when clicking outside
-document.addEventListener('click', function(event) {
-    const isClickInsideNav = navLinks.contains(event.target);
-    const isClickOnToggle = menuToggle.contains(event.target);
-    
-    if (!isClickInsideNav && !isClickOnToggle && navLinks.classList.contains('active')) {
-        toggleMenu();
-    }
+document.addEventListener('click', (event) => {
+    if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) setMenuOpen(false);
 });
-
-// Close menu on window resize to desktop
-window.addEventListener('resize', function() {
-    if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
-        navLinks.classList.remove('active');
-        menuIcon.classList.remove('fa-times');
-        menuIcon.classList.add('fa-bars');
-        menuToggle.setAttribute('aria-expanded', 'false');
-    }
-});
+window.addEventListener('resize', () => setMenuOpen(false));
+setMenuOpen(false);
 
 // ======================================
 // 2. STICKY NAVBAR ON SCROLL
@@ -198,7 +178,7 @@ lazyLoadImages();
 document.addEventListener('keydown', function(e) {
     // ESC key closes mobile menu
     if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-        toggleMenu();
+        setMenuOpen(false, true);
     }
 });
 
@@ -217,7 +197,7 @@ function trapFocus(element) {
     const lastFocusable = focusableElements[focusableElements.length - 1];
     
     element.addEventListener('keydown', function(e) {
-        if (e.key !== 'Tab') return;
+        if (e.key !== 'Tab' || !element.classList.contains('active')) return;
         
         if (e.shiftKey) {
             if (document.activeElement === firstFocusable) {
@@ -233,10 +213,15 @@ function trapFocus(element) {
     });
 }
 
-// Apply focus trap to mobile menu when active
-navLinks.addEventListener('transitionend', function() {
-    if (navLinks.classList.contains('active')) {
-        trapFocus(navLinks);
+// Include the toggle in the open menu's keyboard loop; no trap when closed.
+document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab' || !navLinks.classList.contains('active')) return;
+    const links = [...navLinks.querySelectorAll('a[href]')];
+    const last = links[links.length - 1];
+    if (event.shiftKey && document.activeElement === menuToggle) {
+        event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault(); menuToggle.focus();
     }
 });
 
@@ -251,7 +236,8 @@ let lastFocusedElement = null;
 
 function openLightboxByImg(img) {
     if (!lightbox || !lightboxImg || !img) return;
-    lightboxImg.src = img.src;
+    lightboxImg.src = img.currentSrc || img.src;
+    lightboxImg.alt = img.alt;
     lightbox.classList.add('active');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';

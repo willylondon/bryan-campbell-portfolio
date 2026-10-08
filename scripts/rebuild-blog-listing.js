@@ -1,83 +1,50 @@
 #!/usr/bin/env node
-// Rebuilds the <section class="grid"> in blog.html from all blog/*.html posts.
-// Run: node scripts/rebuild-blog-listing.js
-// Wire into n8n by running this as a shell step after GitHub Commit.
-
+// Validate every source article, then rebuild only articles already selected in blog.html.
+// This keeps unlisted outlines/FAQ fragments out until an editor chooses to publish them.
 const fs = require('fs');
 const path = require('path');
+const { validatePost, escapeHtml } = require('./blog-validation');
 
-const ROOT = path.join(__dirname, '..');
-const BLOG_DIR = path.join(ROOT, 'blog');
-const BLOG_HTML = path.join(ROOT, 'blog.html');
-const SKIP = ['post-template.html'];
+function rebuild(root = path.join(__dirname, '..'), checkOnly = false) {
+  const blogDir = path.join(root, 'blog');
+  const listingPath = path.join(root, 'blog.html');
+  const blogHtml = fs.readFileSync(listingPath, 'utf8');
+  const start = '<!-- POSTS:START -->';
+  const end = '<!-- POSTS:END -->';
+  const si = blogHtml.indexOf(start);
+  const ei = blogHtml.indexOf(end);
+  if (si < 0 || ei <= si) throw new Error('Missing or out-of-order POSTS markers');
 
-function extractMeta(html) {
-  // Pull datePublished from JSON-LD
-  const ldMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-  let date = '', headline = '', description = '', slug = '';
-  if (ldMatch) {
-    try {
-      const ld = JSON.parse(ldMatch[1]);
-      date = ld.datePublished || '';
-      headline = ld.headline || '';
-      description = ld.description || '';
-    } catch (e) {}
-  }
-  // Fallback: <title> tag (strip site suffix)
-  if (!headline) {
-    const t = html.match(/<title>([^<]+)<\/title>/);
-    if (t) headline = t[1].replace(/\s*\|\s*Master Bryan Kukibo.*$/, '').trim();
-  }
-  // Fallback: <meta name="description">
-  if (!description) {
-    const d = html.match(/<meta\s+name="description"\s+content="([^"]+)"/);
-    if (d) description = d[1];
-  }
-  return { date, headline, description };
+  // Validate before writing anything, including unlisted posts reachable by direct URL.
+  const posts = new Map(fs.readdirSync(blogDir)
+    .filter(file => file.endsWith('.html') && file !== 'post-template.html')
+    .map(file => [file, validatePost(fs.readFileSync(path.join(blogDir, file), 'utf8'), file)]));
+  const selected = [...blogHtml.slice(si, ei).matchAll(/href="blog\/([^"/]+\.html)"/g)].map(match => match[1]);
+  if (!selected.length || new Set(selected).size !== selected.length) throw new Error('Listing must select unique existing articles');
+  for (const file of selected) if (!posts.has(file)) throw new Error(`Listed article does not exist: ${file}`);
+  const sorted = selected.map(file => ({ file, ...posts.get(file) })).sort((a, b) => b.date.localeCompare(a.date) || a.file.localeCompare(b.file));
+  const cards = sorted.map(post => {
+    const date = new Date(`${post.date}T00:00:00Z`).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
+    return `      <article class="card">
+        <span>${date}</span>
+        <h2>${escapeHtml(post.headline)}</h2>
+        <p>${escapeHtml(post.description)}</p>
+        <a class="cta" href="blog/${escapeHtml(post.file)}">Read article</a>
+      </article>`;
+  }).join('\n\n');
+  const inner = `\n    <section class="grid">\n${cards}\n    </section>\n    `;
+  const updated = blogHtml.slice(0, si + start.length) + inner + blogHtml.slice(ei);
+  if (!checkOnly) fs.writeFileSync(listingPath, updated);
+  return { validated: posts.size, listed: selected.length, html: updated };
 }
 
-function formatDate(iso) {
-  if (!iso) return '';
-  // Parse as local date to avoid UTC-offset shifting the day
-  const [year, month, day] = iso.slice(0, 10).split('-').map(Number);
-  const d = new Date(year, month - 1, day);
-  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+if (require.main === module) {
+  try {
+    const result = rebuild(undefined, process.argv.includes('--check'));
+    console.log(`Validated ${result.validated} articles; ${result.listed} selected for the blog index.`);
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 1;
+  }
 }
-
-// Read all posts
-const files = fs.readdirSync(BLOG_DIR)
-  .filter(f => f.endsWith('.html') && !SKIP.includes(f));
-
-const posts = files.map(f => {
-  const html = fs.readFileSync(path.join(BLOG_DIR, f), 'utf8');
-  const meta = extractMeta(html);
-  return { file: f, ...meta };
-}).filter(p => p.headline);
-
-// Sort newest first
-posts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-
-// Build card HTML
-const cards = posts.map(p => `      <article class="card">
-        <span>${formatDate(p.date)}</span>
-        <h2>${p.headline}</h2>
-        <p>${p.description}</p>
-        <a class="cta" href="blog/${p.file}">Read article</a>
-      </article>`).join('\n\n');
-
-const START = '<!-- POSTS:START -->';
-const END   = '<!-- POSTS:END -->';
-const inner = `    <section class="grid">\n${cards}\n    </section>`;
-
-let blogHtml = fs.readFileSync(BLOG_HTML, 'utf8');
-const si = blogHtml.indexOf(START);
-const ei = blogHtml.indexOf(END);
-if (si === -1 || ei === -1) {
-  console.error(`Could not find ${START} / ${END} markers in blog.html`);
-  process.exit(1);
-}
-const updated = blogHtml.slice(0, si) + START + '\n' + inner + '\n    ' + END + blogHtml.slice(ei + END.length);
-
-fs.writeFileSync(BLOG_HTML, updated);
-console.log(`blog.html updated — ${posts.length} posts listed:`);
-posts.forEach(p => console.log(`  ${p.date}  ${p.file}`));
+module.exports = { rebuild };

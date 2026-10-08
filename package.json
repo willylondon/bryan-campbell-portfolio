@@ -1,0 +1,10 @@
+{
+  "name": "bryan-campbell-portfolio",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/blog-publishing.test.cjs && node scripts/rebuild-blog-listing.js --check && node tests/site.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.0"
+  }
+}
